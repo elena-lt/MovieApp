@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <string name="image_base_url_w500">https://image.tmdb.org/t/p/w500%s</string>>
+    <string name="image_base_url_w200">https://image.tmdb.org/t/p/w200</string>
+    <string name="youtube_trailer_base_url">https://www.youtube.com/watch?v=</string>
+    <string name="overview_header">Overview</string>
+    <string name="reviews_header">Reviews</string>
+    <string name="home_fragment_header">Home</string>
+    <string name="trending_category_heager">Trending</string>
+    <string name="toprated_category_header">Top Rated</string>
+</resources>

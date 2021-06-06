@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="movie" type="com.movieapp.models.Movie"/>
+    </data>
+
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="35dp"
+            app:cardBackgroundColor="#6FECEAEF"
+    android:layout_marginStart="5dp" android:layout_marginEnd="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="match_parent"
+                                                           android:layout_marginBottom="5dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="300dp" android:layout_height="400dp"
+                    android:id="@+id/imgMoviePoster"
+                    app:setImageUrl="@{@string/image_base_url_w500(movie.poster_path)}"
+                    tools:background="@drawable/godzilla_poster"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/RoundedCorners"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:gravity="start"
+                    android:layout_height="wrap_content"
+                    android:text="@{movie.title}"
+                    tools:text="movie title"
+                    app:layout_constraintTop_toBottomOf="@+id/imgMoviePoster"
+                    app:layout_constraintStart_toStartOf="@+id/imgMoviePoster"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:paddingStart="5dp" android:paddingEnd="5dp"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="17sp" android:id="@+id/tvMovieTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/imgMoviePoster"/>
+
+            <com.google.android.material.textview.MaterialTextView android:layout_width="wrap_content"
+                                                                   android:layout_height="wrap_content"
+                                                                   tools:text="Genres"
+                                                                   android:textSize="14sp"
+                                                                   android:textColor="@color/colorTextLight"
+                                                                   app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
+                                                                   app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
+                                                                   android:id="@+id/tvGenres"
+                                                                   android:layout_marginBottom="3dp"
+                                                                   android:paddingStart="5dp" android:paddingEnd="5dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
