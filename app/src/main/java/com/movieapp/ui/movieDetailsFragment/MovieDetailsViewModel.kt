@@ -20,7 +20,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val _noReviewsFound: MutableLiveData<Boolean> = MutableLiveData()
     val noReviewsFound: LiveData<Boolean> = _noReviewsFound
 
-    fun getReviews(movieId: Int) =
+    suspend fun getReviews(movieId: Int) =
          getReviewsUsecase.getReviews(movieId).map {
              it.map { review ->
                  ReviewsMapper.toSingleResult(review)

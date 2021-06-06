@@ -11,5 +11,5 @@ import javax.inject.Inject
 
 class GetReviewsUsecase @Inject constructor(private val repository: MovieRepository) {
 
-    fun getReviews(movieId: Int): Flow<PagingData<Review>> = repository.getReviews(movieId)
+    suspend fun getReviews(movieId: Int): Flow<PagingData<Review>> = repository.getReviews(movieId)
 }

@@ -20,5 +20,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getTopRatedMovies(): Flow<PagingData<Movie>> = moviesSource.getTopRatedMovies()
 
-    override fun getReviews(movieId: Int): Flow<PagingData<Review>> = moviesSource.getReviews(movieId)
+    override suspend fun getReviews(movieId: Int): Flow<PagingData<Review>> = moviesSource.getReviews(movieId)
+
+    override suspend fun getSimilarMovies(movieId: String): Flow<PagingData<Movie>> = moviesSource.getSimilarMovies(movieId)
 }

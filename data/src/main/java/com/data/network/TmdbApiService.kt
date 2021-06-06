@@ -25,8 +25,16 @@ interface TmdbApiService {
     @GET("movie/{movie_id}/reviews")
     suspend fun getReviews(
         @Path("movie_id") movie_id: String,
-        @Query ("api_key") api_key: String,
+        @Query("api_key") api_key: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
     ): ReviewsApiResponse
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path("movie_id") movie_id: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Response<MoviesApiResponse>
 }

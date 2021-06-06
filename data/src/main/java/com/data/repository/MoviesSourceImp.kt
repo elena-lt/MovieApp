@@ -1,22 +1,15 @@
 package com.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.core.models.Movie
-import com.core.models.Movies
 import com.core.models.Review
-import com.core.other.Resource
-import com.data.BuildConfig
-import com.data.mappers.MoviesResponseMapper
+import com.core.other.CollectionType
 import com.data.network.TmdbApiService
+import com.data.repository.pagingSource.MoviePagingSource
 import com.data.repository.pagingSource.ReviewsPagingSource
-import com.data.repository.pagingSource.TopRatedPagingSource
-import com.data.repository.pagingSource.UpcomingMoviesPagingSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MoviesSourceImp @Inject constructor(
@@ -32,24 +25,8 @@ class MoviesSourceImp @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory =
-            { UpcomingMoviesPagingSource(apiService) }
+            {MoviePagingSource(apiService, CollectionType.UPCOMING_MOVIES)}
         ).flow
-
-//    override suspend fun getUpcomingMovies(): Resource<Movies> = withContext(Dispatchers.IO) {
-//        try {
-//            val response = apiService.getUpcomingMovies(BuildConfig.TMDB_API_KEY)
-//            if (response.isSuccessful && response.body() != null) {
-//                return@withContext Resource.SUCCESS(MoviesResponseMapper.toMovies(response.body()!!))
-//            } else {
-//                Log.d(TAG, "Error: ${response.message()}")
-//                return@withContext Resource.ERROR(response.message(), null)
-//            }
-//        } catch (e: Exception) {
-//            Log.d(TAG, "Error: ${e.message.toString()}")
-//            return@withContext Resource.ERROR(e.message, null)
-//        }
-//    }
-
 
     override suspend fun getTopRatedMovies() =
         Pager(
@@ -59,14 +36,14 @@ class MoviesSourceImp @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory =
-            { TopRatedPagingSource(apiService) }
+            {MoviePagingSource(apiService, CollectionType.TOP_RATED_MOVIES)}
         ).flow
 
     /**
      * @param prefetchDistance //TODO
      * @param maxSize - number of cached elements //TODO
      */
-    override fun getReviews(movieId: Int): Flow<PagingData<Review>> =
+    override suspend fun getReviews(movieId: Int): Flow<PagingData<Review>> =
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -76,6 +53,18 @@ class MoviesSourceImp @Inject constructor(
             pagingSourceFactory =
             { ReviewsPagingSource(apiService, movieId.toString()) }
         ).flow
+
+    override suspend fun getSimilarMovies(movieId: String): Flow<PagingData<Movie>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory =
+            { MoviePagingSource(apiService, CollectionType.SIMILAR_MOVIES, movieId) }
+        ).flow
+
 
 
     companion object {

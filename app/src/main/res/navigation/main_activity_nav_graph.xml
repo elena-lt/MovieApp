@@ -17,4 +17,10 @@
     </fragment>
     <fragment android:id="@+id/trailerFragment" android:name="com.movieapp.ui.trailerFragment.TrailerFragment"
               android:label="fragment_trailer" tools:layout="@layout/fragment_trailer"/>
+    <fragment android:id="@+id/profileFragment" android:name="com.movieapp.ui.profileFragment.ProfileFragment"
+              android:label="fragment_profile" tools:layout="@layout/fragment_profile"/>
+    <fragment android:id="@+id/watchListFragment" android:name="com.movieapp.ui.watchListFragment.WatchListFragment"
+              android:label="fragment_watch_list" tools:layout="@layout/fragment_watch_list">
+        <action android:id="@+id/action_watchListFragment_to_trailerFragment" app:destination="@id/trailerFragment"/>
+    </fragment>
 </navigation>
