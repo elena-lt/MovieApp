@@ -3,7 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable name="review" type="com.movieapp.models.Review"/>
     </data>
 

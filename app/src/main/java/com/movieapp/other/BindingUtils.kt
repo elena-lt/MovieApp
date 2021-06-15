@@ -8,11 +8,12 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.core.other.Resource
+import com.google.android.material.imageview.ShapeableImageView
 import com.movieapp.models.Movie
 
 
 @BindingAdapter(value = ["setImageUrl"])
-fun ImageView.bindImageUrl( url: String?) {
+fun ShapeableImageView.bindImageUrl(url: String?) {
     if (url != null && url.isNotBlank()) {
         Glide.with(this.context).load(url).centerCrop().into(this)
     }

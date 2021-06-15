@@ -1,181 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.movieDetailsFragment.MovieDetailsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.movieDetailsFragment.MovieDetailsFragment">
 
     <data>
-        <variable name="movie" type="com.movieapp.models.Movie"/>
+        <variable
+            name="movie"
+            type="com.movieapp.models.Movie" />
+
+        <variable
+            name="reviews"
+            type="com.movieapp.models.Reviews" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#151414"
-    android:fitsSystemWindows="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#151414"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent" android:layout_height="450dp"
-                android:fitsSystemWindows="true" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-                android:theme="@style/AppTheme">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout android:layout_width="match_parent"
-                                                                        android:layout_height="match_parent"
-                                                                        android:fitsSystemWindows="true"
-                                                                        app:contentScrim="#F5FFFE"
-                                                                        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                                                                        app:title="@{movie.title}">
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:fitsSystemWindows="true"
+                app:contentScrim="#F5FFFE"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="@{movie.title}">
 
-                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-                           setImageUrl="@{@string/image_base_url_w500(movie.poster_path)}"
-                           android:layout_gravity="center|end"
-                           app:layout_collapseMode="parallax"/>
+                <com.google.android.material.imageview.ShapeableImageView
+                    setImageUrl="@{@string/image_base_url_w500(movie.poster_path)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|end"
+                    app:layout_collapseMode="parallax" />
 
-                <com.google.android.material.appbar.MaterialToolbar android:layout_width="match_parent"
-                                                                    android:layout_height="100dp"
-                                                                    app:layout_collapseMode="pin"
-                                                                    android:background="#2059595A"
-                                                                    app:title="@{movie.title}"/>
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#0059595A"
+                    app:layout_collapseMode="pin"
+                    app:title="@{movie.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
-                                               app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                               android:background="@drawable/bg_rounded_corners"
-                                               android:translationY="-70dp">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_rounded_corners"
+            android:translationY="-70dp"
+            android:layout_gravity="fill_vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                               android:layout_height="match_parent">
-
-                <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvMovieTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{movie.title}"
-                        android:textColor="@color/colorTextDark"
-                        android:textStyle="bold"
-                        android:textSize="25sp"
-                        tools:text="Movie Title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
-                <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvReleaseYear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="@{movie.release_date}"
-                        tools:text="2021-05"
-                        android:layout_marginEnd="7dp"
-                        android:textColor="@color/colorTextLight"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
-                        app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
-                        app:layout_constraintEnd_toStartOf="@+id/tvMovieProducer" android:layout_marginTop="10dp"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvMovieProducer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Actors"
-                        android:textColor="@color/colorTextLight"
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="@+id/tvMovieTitle"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
-                        android:layout_marginStart="7dp"
-                        app:layout_constraintStart_toEndOf="@+id/tvReleaseYear" android:layout_marginTop="10dp"/>
+                    android:id="@+id/tvMovieTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{movie.title}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Movie Title" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvReleaseYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="7dp"
+                    android:text="@{movie.release_date}"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tvMovieProducer"
+                    app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
+                    tools:text="2021-05" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMovieProducer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Actors"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvMovieTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvReleaseYear"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
 
                 <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/ratingBar"
-                        app:layout_constraintTop_toBottomOf="@+id/tvReleaseYear"
-                        app:layout_constraintStart_toStartOf="@+id/tvReleaseYear"
-                        android:rating="@{movie.popularity}"
-                        app:layout_constraintEnd_toEndOf="@+id/tvMovieProducer" android:layout_marginTop="10dp"/>
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:rating="@{movie.popularity}"
+                    app:layout_constraintEnd_toEndOf="@+id/tvMovieProducer"
+                    app:layout_constraintStart_toStartOf="@+id/tvReleaseYear"
+                    app:layout_constraintTop_toBottomOf="@+id/tvReleaseYear" />
 
-                <ImageButton android:layout_width="59dp" android:layout_height="59dp"
-                             android:background="@drawable/ic_play_button"
-                             app:layout_constraintEnd_toEndOf="@+id/ratingBar"
-                             app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-                             app:layout_constraintStart_toStartOf="@+id/ratingBar" android:layout_marginTop="10dp"
-                             android:id="@+id/btnPlay" android:contentDescription="A button to play a trailer"/>
+                <ImageButton
+                    android:id="@+id/btnPlay"
+                    android:layout_width="59dp"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_play_button"
+                    android:contentDescription="A button to play a trailer"
+                    app:layout_constraintEnd_toEndOf="@+id/ratingBar"
+                    app:layout_constraintStart_toStartOf="@+id/ratingBar"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
-                <View android:layout_width="match_parent" android:layout_height="1dp"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintStart_toStartOf="parent"
-                      app:layout_constraintTop_toBottomOf="@id/btnPlay"
-                      android:background="@color/colorTextLight"
-                      android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
-                      android:id="@+id/view1"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="@string/overview_header"
-                        android:id="@+id/tvOverviewSectionTitle"
-                        android:textSize="18sp"
-                        android:layout_marginTop="15dp" android:layout_marginBottom="10dp"
-                        android:layout_marginStart="11dp"
-                        app:layout_constraintTop_toBottomOf="@id/view1" app:layout_constraintStart_toStartOf="parent"/>
-
-                <com.libRG.CustomTextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                                          android:text="@{movie.overview}"
-                                          android:textSize="18sp"
-                                          app:lib_setExpandableText="true"
-                                          app:lib_setTrimLines="6"
-                                          android:id="@+id/customTextView"
-                                          android:paddingStart="20dp" android:paddingEnd="20dp"
-                                          app:layout_constraintTop_toBottomOf="@id/tvOverviewSectionTitle"
-                                          app:layout_constraintEnd_toEndOf="parent"
-                                          app:layout_constraintStart_toStartOf="parent"/>
-
-                <View android:layout_width="match_parent" android:layout_height="1dp"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintStart_toStartOf="parent"
-                      app:layout_constraintTop_toBottomOf="@id/customTextView"
-                      android:background="@color/colorTextLight"
-                      android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
-                      android:id="@+id/view2"/>
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorTextLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnPlay" />
 
                 <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="@string/reviews_header"
-                        android:id="@+id/tvReviewsSectionTitle"
-                        android:textSize="18sp"
-                        android:layout_marginTop="15dp" android:layout_marginBottom="10dp"
-                        android:layout_marginStart="11dp"
-                        app:layout_constraintTop_toBottomOf="@id/view2" app:layout_constraintStart_toStartOf="parent"/>
+                    android:id="@+id/tvOverviewSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/overview_header"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
+
+                <com.libRG.CustomTextView
+                    android:id="@+id/customTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@{movie.overview}"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvOverviewSectionTitle"
+                    app:lib_setExpandableText="true"
+                    app:lib_setTrimLines="6" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorTextLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/customTextView" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvReviewsSectionTitle">
+                    android:id="@+id/layout_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view2">
 
-                    <include
-                            android:id="@+id/firstVisibleReview"
-                            layout="@layout/item_review"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvReviewsSectionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/reviews_header"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/reviewsHiddenLayout"
-                            android:layout_width="match_parent" android:layout_height="450dp"
-                            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/firstVisibleReview">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtReviewsNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@{reviews.total_results.toString()}"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toEndOf="@id/tvReviewsSectionTitle"
+                        app:layout_constraintTop_toTopOf="@id/tvReviewsSectionTitle"
+                        tools:text="4 tys." />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_reviews"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                android:orientation="vertical"
-                                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                tools:listitem="@layout/item_review"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtNoReviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No reviews found for this movie"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvReviewsSectionTitle" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_reviews"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvReviewsSectionTitle"
+                        tools:listitem="@layout/item_review" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorTextLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_reviews" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvSimilarMovies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/similar_movies"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view3" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSimilarMovies"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSimilarMovies"
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_movie_single_poster" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 

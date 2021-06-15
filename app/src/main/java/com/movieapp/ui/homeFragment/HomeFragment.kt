@@ -1,15 +1,16 @@
 package com.movieapp.ui.homeFragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import com.movieapp.adapters.LoadingStateAdapter
 import com.movieapp.adapters.MovieAdapter
 import com.movieapp.adapters.MovieAdapter2
 import com.movieapp.databinding.FragmentHomeBinding
@@ -17,7 +18,6 @@ import com.movieapp.models.Movie
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -47,12 +47,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        adapter.addLoadStateListener { state ->
-//            with(viewBinding) {
-//                news.isVisible = state.refresh != LoadState.Loading
-//                progress.isVisible = state.refresh == LoadState.Loading
-//            }
-//        }
+        binding!!.btnRetry.setOnClickListener { adapter.retry() }
     }
 
     override fun onDestroy() {
@@ -74,21 +69,31 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecycler() {
-        adapter = MovieAdapter {
-            goToMovieDetails(it)
+        adapter = MovieAdapter { goToMovieDetails(it) }
+
+        binding?.rvTrendingMovies?.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = LoadingStateAdapter { adapter.retry() },
+            footer = LoadingStateAdapter { adapter.retry() }
+        )
+
+        adapter.addLoadStateListener { loadState ->
+            with(binding!!) {
+                rvTrendingMovies.isVisible = loadState.source.refresh is LoadState.NotLoading
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+                errorMsg.isVisible = loadState.source.refresh is LoadState.Error
+                errorMsg.text = (loadState.refresh as? LoadState.Error)?.error?.localizedMessage
+            }
         }
+
         adapterSmall = MovieAdapter2()
-        binding?.rvTrendingMovies?.adapter = adapter
         binding?.rvTopRatedMovies?.adapter = adapterSmall
     }
 
+
     private fun goToMovieDetails(it: Movie) {
-        Log.d(TAG, "Movie passed: ${it.title}, ${it.poster_path}")
         val action = HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(it)
         findNavController().navigate(action)
     }
 
-    companion object {
-        const val TAG = "HomeFragment"
-    }
 }

@@ -22,7 +22,7 @@ class MoviesSourceImp @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 maxSize = 100,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             pagingSourceFactory =
             {MoviePagingSource(apiService, CollectionType.UPCOMING_MOVIES)}
@@ -33,7 +33,7 @@ class MoviesSourceImp @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 maxSize = 100,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             pagingSourceFactory =
             {MoviePagingSource(apiService, CollectionType.TOP_RATED_MOVIES)}
@@ -57,8 +57,8 @@ class MoviesSourceImp @Inject constructor(
     override suspend fun getSimilarMovies(movieId: String): Flow<PagingData<Movie>> =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
-                maxSize = 100,
+                pageSize = 10,
+                maxSize = 40,
                 enablePlaceholders = false
             ),
             pagingSourceFactory =

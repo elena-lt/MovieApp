@@ -8,20 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
+import androidx.paging.map
 import com.bumptech.glide.Glide
 import com.movieapp.R
 import com.movieapp.adapters.LoadingStateAdapter
 
 import com.movieapp.adapters.ReviewAdapter
+import com.movieapp.adapters.SinglePosterAdapter
 import com.movieapp.databinding.FragmentMovieDetailsBinding
-import com.movieapp.models.Review
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -33,7 +38,11 @@ class MovieDetailsFragment : Fragment() {
 
     private val viewModel: MovieDetailsViewModel by viewModels()
 
-    private lateinit var reviewsAdapter: ReviewAdapter
+    @Inject
+    lateinit var reviewsAdapter: ReviewAdapter
+
+    @Inject
+    lateinit var similarMoviesAdapter: SinglePosterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +52,7 @@ class MovieDetailsFragment : Fragment() {
         val view = binding!!.root
 
         setupRecycler()
-        getReview()
+        loadData()
 
         return view
     }
@@ -51,8 +60,6 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.movie = args.movie
-
-        subscribeToObservers()
 
         binding!!.btnPlay.setOnClickListener {
             findNavController().navigate(R.id.action_movieDetailsFragment_to_trailerFragment)
@@ -64,42 +71,48 @@ class MovieDetailsFragment : Fragment() {
         _binding = null
     }
 
-    private fun getReview() {
+    private fun loadData() {
         val movieId = args.movie.id
 
         lifecycleScope.launch {
-            viewModel.getReviews(movieId).collectLatest(reviewsAdapter::submitData)
+            viewModel.getReviews(movieId).collectLatest {
+                reviewsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+                Log.d(TAG, "Item count: ${reviewsAdapter.itemCount}")
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.getSimilarMovies(movieId).collectLatest {
+                similarMoviesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
         }
     }
 
-    private fun subscribeToObservers() {
-//        viewModel.error.observe(viewLifecycleOwner, {
-//            Toast.makeText(requireContext(), "Cannot load reviews, $it", Toast.LENGTH_SHORT).show()
-//        })
+    private fun setupRecycler() {
+        binding!!.rvReviews.adapter = reviewsAdapter.withLoadStateHeaderAndFooter(
+            header = LoadingStateAdapter { reviewsAdapter.retry() },
+            footer = LoadingStateAdapter { reviewsAdapter.retry() }
+        )
 
-        viewModel.noReviewsFound.observe(viewLifecycleOwner, {
-            Toast.makeText(requireContext(), "No reviews found for this movie", Toast.LENGTH_SHORT).show()
-        })
+        reviewsAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.NotLoading && reviewsAdapter.itemCount == 0) {
+                showEmptyReviews(true)
+            } else {
+                showEmptyReviews(false)
+            }
+        }
 
-        viewModel.reviews.observe(viewLifecycleOwner, {
-            binding?.firstVisibleReview?.tvAuthorName!!.text = it.results?.get(0)!!.author
-            binding?.firstVisibleReview?.tvReviewContent!!.text = it.results[0].content
-            val uri = getString(R.string.image_base_url_w200) + "${it.results[0].author_details!!.avatar_path}"
-            Glide.with(requireContext()).load(uri.toUri()).centerCrop().into(binding!!.firstVisibleReview.imgAuthor)
-        })
-
+        binding!!.rvSimilarMovies.adapter = similarMoviesAdapter
     }
 
-    private fun setupRecycler() {
-        reviewsAdapter = ReviewAdapter()
-        binding!!.rvReviews.adapter = reviewsAdapter
-            .withLoadStateHeaderAndFooter(
-                header = LoadingStateAdapter(),
-                footer = LoadingStateAdapter()
-            )
+    private fun showEmptyReviews(isListEmpty: Boolean) {
+        with(binding!!) {
+            txtNoReviews.isVisible = isListEmpty
+            rvReviews.isVisible = !isListEmpty
+        }
     }
 
     companion object {
-        const val TAG = "MovieDetailsFragment"
+        const val TAG = "DetailsFragment"
     }
 }

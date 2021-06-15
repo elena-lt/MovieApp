@@ -1,94 +1,51 @@
 package com.movieapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.movieapp.databinding.ItemErrorBinding
-import com.movieapp.databinding.ItemProgressBinding
+import com.movieapp.R
+import com.movieapp.databinding.ItemNetworkStateBinding
 
-class LoadingStateAdapter() : LoadStateAdapter<LoadingStateAdapter.ItemViewHolder>() {
+class LoadingStateAdapter(
+    private val retry: () -> Unit
+) : LoadStateAdapter<LoadingStateAdapter.NetworkStateItemViewHolder>() {
 
-    override fun getStateViewType(loadState: LoadState) = when (loadState) {
-        is LoadState.NotLoading -> error("Not supported")
-        LoadState.Loading -> PROGRESS
-        is LoadState.Error -> ERROR
-    }
-
-    override fun onBindViewHolder(holder: ItemViewHolder, loadState: LoadState) {
+    override fun onBindViewHolder(holder: NetworkStateItemViewHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ItemViewHolder {
-        return when(loadState) {
-            LoadState.Loading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
-            is LoadState.Error -> ErrorViewHolder(LayoutInflater.from(parent.context), parent)
-            is LoadState.NotLoading -> error("Not supported")
-        }
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
+        NetworkStateItemViewHolder.create(parent, retry)
 
-    private companion object {
 
-        private const val ERROR = 1
-        private const val PROGRESS = 0
-    }
+    class NetworkStateItemViewHolder(
+        private val binding: ItemNetworkStateBinding,
+        retryCallback: () -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    abstract class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        abstract fun bind(loadState: LoadState)
-    }
-
-    class ProgressViewHolder internal constructor(
-        binding: ItemProgressBinding
-    ) : ItemViewHolder(binding.root) {
-
-        override fun bind(loadState: LoadState) {
-            // Do nothing
+        init {
+            binding.retryButton.setOnClickListener { retryCallback() }
         }
 
-        companion object {
+        fun bind(loadState: LoadState) {
 
-            operator fun invoke(
-                layoutInflater: LayoutInflater,
-                parent: ViewGroup? = null,
-                attachToRoot: Boolean = false
-            ): ProgressViewHolder {
-                return ProgressViewHolder(
-                    ItemProgressBinding.inflate(
-                        layoutInflater,
-                        parent,
-                        attachToRoot
-                    )
-                )
+            with(binding) {
+                progressBar.isVisible = loadState is LoadState.Loading
+                retryButton.isVisible = loadState is LoadState.Error
+                errorMsg.isVisible =
+                    !(loadState as? LoadState.Error)?.error?.message.isNullOrBlank()
+                errorMsg.text = (loadState as? LoadState.Error)?.error?.message
             }
         }
-    }
-
-    class ErrorViewHolder internal constructor(
-        private val binding: ItemErrorBinding
-    ) : ItemViewHolder(binding.root) {
-
-        override fun bind(loadState: LoadState) {
-            require(loadState is LoadState.Error)
-            binding.errorMessage.text = loadState.error.localizedMessage
-        }
 
         companion object {
-
-            operator fun invoke(
-                layoutInflater: LayoutInflater,
-                parent: ViewGroup? = null,
-                attachToRoot: Boolean = false
-            ): ErrorViewHolder {
-                return ErrorViewHolder(
-                    ItemErrorBinding.inflate(
-                        layoutInflater,
-                        parent,
-                        attachToRoot
-                    )
-                )
+            fun create (parent: ViewGroup, retryCallback: () -> Unit): NetworkStateItemViewHolder {
+                val view = LayoutInflater.from (parent.context).inflate(R.layout.item_network_state, parent, false)
+                val binding = ItemNetworkStateBinding.bind(view)
+                return NetworkStateItemViewHolder(binding, retryCallback)
             }
         }
     }

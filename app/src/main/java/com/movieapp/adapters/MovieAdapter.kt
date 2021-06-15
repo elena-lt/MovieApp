@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.movieapp.databinding.ItemMovieLargeposterBinding
 import com.movieapp.models.Movie
+import javax.inject.Inject
 
-class MovieAdapter (val onClickListener: (Movie) -> Unit) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DIFF_UTIL) {
+class MovieAdapter @Inject constructor(val onClickListener: (Movie) -> Unit) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DIFF_UTIL) {
 
     inner class MovieViewHolder(val binding: ItemMovieLargeposterBinding, val onClickListener: (Movie) -> Unit) : RecyclerView.ViewHolder(binding.root){
         init {

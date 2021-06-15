@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.movieapp.databinding.ItemReviewBinding
 import com.movieapp.models.Review
+import javax.inject.Inject
 
-class ReviewAdapter : PagingDataAdapter<Review, ReviewAdapter.ReviewViewHolder>(COMPATATOR) {
+class ReviewAdapter @Inject constructor() : PagingDataAdapter<Review, ReviewAdapter.ReviewViewHolder>(COMPATATOR) {
 
     inner class ReviewViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root)
 
