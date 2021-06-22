@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity"
+    tools:openDrawer="start"
 >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,10 +18,9 @@
         <include
             android:id="@+id/header"
             layout="@layout/item_header"
-            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navHostFragmentContainerMain"
@@ -28,20 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:navGraph="@navigation/main_activity_nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#F50057"
+        android:paddingTop="200dp" android:paddingBottom="25dp"
+        android:paddingStart="10dp" android:paddingEnd="10dp"
+        android:background="#E9272626"
         app:menu="@menu/nav_items" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

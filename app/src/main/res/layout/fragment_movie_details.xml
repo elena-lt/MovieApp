@@ -31,7 +31,7 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
+                android:layout_height="550dp"
                 app:contentScrim="#5EC7CCCC"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@{movie.title}">
@@ -72,6 +72,7 @@
                     android:id="@+id/tvMovieTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="@{movie.title}"
                     android:textColor="@color/colorTextDark"
                     android:textSize="25sp"
@@ -88,7 +89,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="7dp"
                     android:text="@{movie.release_date}"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextDark"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toStartOf="@+id/tvMovieProducer"
                     app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
@@ -102,7 +103,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="10dp"
                     android:text="Actors"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextDark"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="@+id/tvMovieTitle"
                     app:layout_constraintStart_toEndOf="@+id/tvReleaseYear"

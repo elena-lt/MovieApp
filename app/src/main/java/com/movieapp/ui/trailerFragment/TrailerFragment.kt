@@ -1,14 +1,12 @@
 package com.movieapp.ui.trailerFragment
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
-import com.google.android.youtube.player.YouTubePlayerFragment
 import com.google.android.youtube.player.YouTubePlayerSupportFragment
 import com.movieapp.BuildConfig
 import com.movieapp.R
@@ -17,7 +15,7 @@ import com.movieapp.databinding.FragmentTrailerBinding
 class TrailerFragment : Fragment() {
 
     private var _binding: FragmentTrailerBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     private var YPlayer: YouTubePlayer? = null
 
@@ -26,7 +24,9 @@ class TrailerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTrailerBinding.inflate(inflater, container, false)
-        val view = _binding!!.root
+        val view = binding.root
+
+        requireActivity().findViewById<LinearLayout>(R.id.header).visibility = View.GONE
 
         return view
     }
@@ -51,7 +51,6 @@ class TrailerFragment : Fragment() {
         youTubePlayerFragment.initialize(BuildConfig.YOUTUBE_API_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, p1: YouTubePlayer?, p2: Boolean) {
                 if (!p2) {
-                    Log.d(TAG, "Initialized")
                     YPlayer = p1
                     YPlayer!!.setFullscreen(false)
                     YPlayer!!.loadVideo("2zNSgSzhBfM")
@@ -62,9 +61,7 @@ class TrailerFragment : Fragment() {
             override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
                 Log.d(TAG, "Something went wrong")
             }
-
         })
-
     }
 
     companion object {
