@@ -5,11 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.movieapp.R
 import com.movieapp.adapters.LoadingStateAdapter
 import com.movieapp.adapters.MovieAdapter
 import com.movieapp.adapters.MovieAdapter2
@@ -38,6 +42,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding!!.root
 
+        setupHeader()
         setUpRecycler()
         loadInitialData()
 
@@ -48,11 +53,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding!!.btnRetry.setOnClickListener { adapter.retry() }
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun setupHeader(){
+        requireActivity().findViewById<LinearLayout>(R.id.header).visibility = View.VISIBLE
+        requireActivity().findViewById<TextView>(R.id.fragment_title).text = getString(R.string.home_fragment_header)
     }
 
     private fun loadInitialData() {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#F3EEEE"
+    android:padding="7dp"
+    android:elevation="8dp"
+    android:layout_marginEnd="5dp" android:layout_marginStart="5dp">
+
+    <ImageButton
+        android:id="@+id/btn_menu"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_menu_round_dots"
+        android:layout_margin="2dp"
+        android:padding="2dp"
+        android:contentDescription="Menu button"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/home_fragment_header"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorTextDark"
+        android:layout_margin="2dp"
+        android:padding="5dp"/>
+
+</LinearLayout>

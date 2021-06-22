@@ -5,13 +5,13 @@
 
     <item android:id="@+id/profileFragment"
           android:icon="@drawable/ic_baseline_person_24"
-          android:title="Profle"/>
+          android:title="@string/profile_fragment_header"/>
 
     <item android:id="@+id/homeFragment"
           android:icon="@drawable/ic_round_home_24"
-          android:title="Home"/>
+          android:title="@string/home_fragment_header"/>
 
-    <item android:id="@+id/log_out"
+    <item android:id="@+id/watchListFragment"
           android:icon="@drawable/ic_round_home_24"
-          android:title="Log out"/>
+          android:title="@string/watchlist_fragment_header"/>
 </menu>

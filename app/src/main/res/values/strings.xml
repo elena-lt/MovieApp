@@ -6,8 +6,16 @@
     <string name="overview_header">Overview</string>
     <string name="reviews_header">Reviews</string>
     <string name="home_fragment_header">Home</string>
+    <string name="profile_fragment_header">Profile</string>
     <string name="trending_category_heager">Trending</string>
     <string name="toprated_category_header">Top Rated</string>
     <string name="similar_movies">Similar Movies</string>
+    
+    <string name="nav_drawer_open">Open navigation drawer</string>
+    <string name="nav_drawer_close">Close navigation drawer</string>
+    <string name="watchlist_fragment_header">Watchlist</string>
+    <string name="no_reviews">No reviews found for this movie</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error</string>
 
 </resources>

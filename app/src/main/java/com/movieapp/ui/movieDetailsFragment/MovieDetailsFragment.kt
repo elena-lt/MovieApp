@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
@@ -54,12 +55,18 @@ class MovieDetailsFragment : Fragment() {
         setupRecycler()
         loadData()
 
+        requireActivity().findViewById<LinearLayout>(R.id.header).visibility = View.GONE
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.movie = args.movie
+
+        binding!!.toolbarMovieDetails.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
 
         binding!!.btnPlay.setOnClickListener {
             findNavController().navigate(R.id.action_movieDetailsFragment_to_trailerFragment)

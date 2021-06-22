@@ -23,18 +23,16 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             android:theme="@style/AppTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:fitsSystemWindows="true"
-                app:contentScrim="#F5FFFE"
+                app:contentScrim="#5EC7CCCC"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@{movie.title}">
 
@@ -46,11 +44,15 @@
                     app:layout_collapseMode="parallax" />
 
                 <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar_movie_details"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="#0059595A"
+                    android:layout_height="65dp"
+                    android:background="#0C59595A"
                     app:layout_collapseMode="pin"
-                    app:title="@{movie.title}" />
+                    app:title="@{movie.title}"
+                    app:navigationIcon="@drawable/ic_previous"
+                    android:padding="5dp"
+                    android:gravity="center_vertical"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -60,7 +62,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_rounded_corners"
             android:translationY="-70dp"
-            android:layout_gravity="fill_vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,7 +212,7 @@
                         android:id="@+id/txtNoReviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No reviews found for this movie"
+                        android:text="@string/no_reviews"
                         android:textSize="16sp"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
