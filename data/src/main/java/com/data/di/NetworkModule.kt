@@ -6,6 +6,7 @@ import com.data.other.Const
 import com.data.repository.MovieRepositoryImp
 import com.data.repository.MoviesSource
 import com.data.repository.MoviesSourceImp
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ import okhttp3.Dns
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -28,6 +29,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideMoshi()  = Moshi.Builder().build()
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder().addInterceptor(logging).dns(Dns.SYSTEM).connectTimeout(60, TimeUnit.SECONDS)
@@ -36,9 +41,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
 

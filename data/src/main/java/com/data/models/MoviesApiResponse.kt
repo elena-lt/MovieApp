@@ -1,11 +1,13 @@
 package com.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import java.util.*
+
 
 data class MoviesApiResponse(
     var dates: Dates? = null,
     var page: Int = 0,
-    @SerializedName("results")
+    @Json(name="results")
     var movieList: List<MovieApiResponse>? = null,
     var total_pages: Int = 0,
     var total_results: Int = 0,

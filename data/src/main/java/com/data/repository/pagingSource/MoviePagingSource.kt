@@ -19,6 +19,10 @@ class MoviePagingSource (
     private val query: CollectionType,
     private val movieId: String = ""
         ): PagingSource<Int, Movie>() {
+
+    init {
+        Log.d("AppDebug", "MoviePagingSource initiated")
+    }
     
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
