@@ -1,10 +1,28 @@
 pipeline {
     agent any
 
+    environment{
+        BUILD_VARIANT = variant.fromBranch(BRANCH_NAME)
+    }
+
+    options {
+        // Keep last 5 build.
+        buildDiscarder(logRotator(numToKeepStr: "5"))
+
+        // Stop the build eagerly in case of compile or test failures.
+        skipStagesAfterUnstable()
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+            }
+        }
+
+        stage('Compile'){
+            steps {
+            bat 'gradlew compile%{BUILD_VARIANT}'
             }
         }
         stage('Test') {
@@ -17,5 +35,11 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+    }
+
+    post{
+         always{
+             eho 'Just finished'
+         }
     }
 }
