@@ -5,12 +5,6 @@ pipeline {
         BUILD_VARIANT = variant.fromBranch(BRANCH_NAME)
     }
 
-    tools {
-        // Ensures to build the project with JDK 11 as per Android Gradle
-        // Plugin 7.0 requirements.
-        //jdk "Open JDK 11"
-    }
-
     options {
         // Keep last 5 build.
         buildDiscarder(logRotator(numToKeepStr: "5"))
