@@ -14,19 +14,20 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh './gradlew build'
             }
         }
-        stage("Prepare gradle.properties") {
-          steps {
-            // Select Gradle properties.
-            sh 'cp $GRADLE_PROPERTIES.sample $GRADLE_PROPERTIES'
-          }
-        }
-        stage('Compile'){
-            steps {
-            sh './gradlew compile'
-            }
-        }
+//         stage("Prepare gradle.properties") {
+//           steps {
+//             // Select Gradle properties.
+//             sh 'cp $GRADLE_PROPERTIES.sample $GRADLE_PROPERTIES'
+//           }
+//         }
+//         stage('Compile'){
+//             steps {
+//             sh './gradlew compile'
+//             }
+//         }
         stage('Test') {
             steps {
                 echo 'Testing..'
