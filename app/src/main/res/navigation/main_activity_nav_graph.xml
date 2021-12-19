@@ -6,21 +6,31 @@
 
     <fragment android:id="@+id/homeFragment" android:name="com.movieapp.ui.homeFragment.HomeFragment"
               android:label="fragment_home" tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_homeFragment_to_movieDetailsFragment"
-                app:destination="@id/movieDetailsFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
     </fragment>
+
     <fragment android:id="@+id/movieDetailsFragment"
               android:name="com.movieapp.ui.movieDetailsFragment.MovieDetailsFragment"
               android:label="fragment_movie_details" tools:layout="@layout/fragment_movie_details">
         <argument android:name="movie" app:argType="com.movieapp.models.Movie"/>
-        <action android:id="@+id/action_movieDetailsFragment_to_trailerFragment" app:destination="@id/trailerFragment"/>
+        <action android:id="@+id/action_movieDetailsFragment_to_trailerFragment" app:destination="@id/trailerFragment" />
     </fragment>
+
     <fragment android:id="@+id/trailerFragment" android:name="com.movieapp.ui.trailerFragment.TrailerFragment"
               android:label="fragment_trailer" tools:layout="@layout/fragment_trailer"/>
+
     <fragment android:id="@+id/profileFragment" android:name="com.movieapp.ui.profileFragment.ProfileFragment"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile"/>
+
     <fragment android:id="@+id/watchListFragment" android:name="com.movieapp.ui.watchListFragment.WatchListFragment"
               android:label="fragment_watch_list" tools:layout="@layout/fragment_watch_list">
         <action android:id="@+id/action_watchListFragment_to_trailerFragment" app:destination="@id/trailerFragment"/>
     </fragment>
+
 </navigation>
