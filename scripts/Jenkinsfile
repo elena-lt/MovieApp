@@ -8,7 +8,7 @@ pipeline {
     tools {
         // Ensures to build the project with JDK 11 as per Android Gradle
         // Plugin 7.0 requirements.
-        jdk "Open JDK 11"
+        //jdk "Open JDK 11"
     }
 
     options {
