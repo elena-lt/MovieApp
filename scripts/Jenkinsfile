@@ -10,19 +10,18 @@ pipeline {
         // Stop the build eagerly in case of compile or test failures.
         skipStagesAfterUnstable()
     }
-    stage("Prepare gradle.properties") {
-      steps {
-        // Select Gradle properties.
-        sh 'cp $GRADLE_PROPERTIES.sample $GRADLE_PROPERTIES'
-      }
-    }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
             }
         }
-
+        stage("Prepare gradle.properties") {
+          steps {
+            // Select Gradle properties.
+            sh 'cp $GRADLE_PROPERTIES.sample $GRADLE_PROPERTIES'
+          }
+        }
         stage('Compile'){
             steps {
             sh './gradlew compile'
